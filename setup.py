@@ -1,14 +1,14 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='django-1.5-registration',
-    version='0.0.2',
-    description='Django Registration patched for Django 1.5',
+    name='django-1.8-registration',
+    version='0.0.3',
+    description='Django Registration patched for Django 1.8',
     long_description = open('README.rst', 'r').read() + open('AUTHORS.rst', 'r').read() + open('CHANGELOG.rst', 'r').read(),
     author='Unomena',
     author_email='dev@unomena.com',
     license='BSD',
-    url='https://github.com/unomena/django-1.5-registration',
+    url='https://github.com/unomena/django-1.8-registration',
     packages = find_packages(),
     install_requires = [
     ],
