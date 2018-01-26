@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-1.8-registration',
-    version='0.0.4',
+    version='0.0.6',
     description='Django Registration patched for Django 1.8',
     long_description = open('README.rst', 'r').read() + open('AUTHORS.rst', 'r').read() + open('CHANGELOG.rst', 'r').read(),
     author='Unomena',
