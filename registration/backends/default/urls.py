@@ -25,7 +25,7 @@ from registration.views import activate
 from registration.views import register
 
 
-urlpatterns = patterns(
+urlpatterns = [
     url(
         r'^activate/complete/$',
         generic_views.TemplateView.as_view(
@@ -64,4 +64,4 @@ urlpatterns = patterns(
         name='registration_disallowed'
     ),
     url(r'', include('registration.auth_urls')),
-)
+]
