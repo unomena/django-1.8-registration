@@ -4,8 +4,7 @@ Views which allow users to create and activate accounts.
 """
 
 
-from django.shortcuts import redirect
-from django.shortcuts import render_to_response
+from django.shortcuts import redirect, render
 from django.template import RequestContext
 
 from registration.backends import get_backend
@@ -50,7 +49,7 @@ def activate(request, backend,
         acivation. This is optional; if not specified, this will be
         obtained by calling the backend's
         ``post_activation_redirect()`` method.
-    
+
     ``template_name``
         A custom template to use. This is optional; if not specified,
         this will default to ``registration/activate.html``.
@@ -59,17 +58,17 @@ def activate(request, backend,
         Any keyword arguments captured from the URL, such as an
         activation key, which will be passed to the backend's
         ``activate()`` method.
-    
+
     **Context:**
-    
+
     The context will be populated from the keyword arguments captured
     in the URL, and any extra variables supplied in the
     ``extra_context`` argument (see above).
-    
+
     **Template:**
-    
+
     registration/activate.html or ``template_name`` keyword argument.
-    
+
     """
     backend = get_backend(backend)
     account = backend.activate(request, **kwargs)
@@ -87,9 +86,7 @@ def activate(request, backend,
     for key, value in extra_context.items():
         context[key] = callable(value) and value() or value
 
-    return render_to_response(template_name,
-                              kwargs,
-                              context_instance=context)
+    return render(request, template_name, kwargs)
 
 
 def register(request, backend, success_url=None, form_class=None,
@@ -125,11 +122,11 @@ def register(request, backend, success_url=None, form_class=None,
        the ``HttpRequest`` and the new ``User``, to determine the URL
        to redirect the user to. To override this, see the list of
        optional arguments for this view (below).
-    
+
     **Required arguments**
-    
+
     None.
-    
+
     **Optional arguments**
 
     ``backend``
@@ -141,11 +138,11 @@ def register(request, backend, success_url=None, form_class=None,
         passed to ``django.shortcuts.redirect``. If not supplied, this
         will be whatever URL corresponds to the named URL pattern
         ``registration_disallowed``.
-    
+
     ``form_class``
         The form class to use for registration. If not supplied, this
         will be retrieved from the registration backend.
-    
+
     ``extra_context``
         A dictionary of variables to add to the template context. Any
         callable object in this dictionary will be called to produce
@@ -156,24 +153,24 @@ def register(request, backend, success_url=None, form_class=None,
         value which can legally be passed to
         ``django.shortcuts.redirect``. If not supplied, this will be
         retrieved from the registration backend.
-    
+
     ``template_name``
         A custom template to use. If not supplied, this will default
         to ``registration/registration_form.html``.
-    
+
     **Context:**
-    
+
     ``form``
         The registration form.
-    
+
     Any extra variables supplied in the ``extra_context`` argument
     (see above).
-    
+
     **Template:**
-    
+
     registration/registration_form.html or ``template_name`` keyword
     argument.
-    
+
     """
     backend = get_backend(backend)
     if not backend.registration_allowed(request):
@@ -198,13 +195,11 @@ def register(request, backend, success_url=None, form_class=None,
             form = form_class()
         else:
             form = form_class(**form_kwargs)
-    
+
     if extra_context is None:
         extra_context = {}
     context = RequestContext(request)
     for key, value in extra_context.items():
         context[key] = callable(value) and value() or value
 
-    return render_to_response(template_name,
-                              {'form': form},
-                              context_instance=context)
+    return render(request, template_name, {'form': form})
